@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: ISC
+
+option('pamlibdir', type: 'string', description: 'PAM modules directory')
