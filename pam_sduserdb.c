@@ -187,6 +187,13 @@ int pam_sm_acct_mgmt(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	rv = varlink_object_get_object(rsp, "record", &record);
 	RETURN_IF_VARLINK(PAM_SERVICE_ERR, "error getting record");
 
+	// Normalise username
+	rv = varlink_object_get_string(record, "userName", &username);
+	RETURN_IF_VARLINK(PAM_SERVICE_ERR, "error getting userName");
+	rv = pam_set_item(pamh, PAM_USER, username);
+	RETURN_IF(rv, rv != PAM_SUCCESS);
+
+	// Handle lockout conditions
 	bool locked;
 	rv = varlink_object_get_bool(record, "locked", &locked);
 	if (rv != -VARLINK_ERROR_UNKNOWN_FIELD) {
