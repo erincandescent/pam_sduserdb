@@ -46,8 +46,6 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, cons
 		return pam_syslog(pamh, LOG_ERR, "authtok null"), PAM_AUTH_ERR;
 	}
 
-	pam_syslog(pamh, LOG_INFO, "user '%s' authtok '%s'", username, authtok);
-
 	// Try user's password(s)
 	VarlinkObject *priv = NULL;
 	rv = varlink_object_get_object(record, "privileged", &priv);
